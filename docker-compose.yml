@@ -1,0 +1,20 @@
+version: "3"
+services:
+  db:
+    platform: linux/x86_64 # M1チップ対応のため追記
+    build:
+      context: .docker/mysql
+      dockerfile: Dockerfile
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql:delegated
+    environment:
+      MYSQL_DATABASE: todo_app
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    command: --default-authentication-plugin=mysql_native_password --sort_buffer_size=1073741824
+volumes:
+  db-data:
